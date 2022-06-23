@@ -8,7 +8,6 @@ export const fetchProducts = createAsyncThunk(
         try{
             const data = await fetch('https://api.escuelajs.co/api/v1/products')
             const result = await data.json()
-            // console.log(result)
             return result
         } catch(error: any){
             console.log(error)
@@ -52,9 +51,8 @@ const productSlice = createSlice({
     },
     extraReducers: (build) => {
         build.addCase(fetchProducts.fulfilled, (state, action:PayloadAction<Product []>) => {
-            // return action.payload
-
-            return action.payload.sort((a,b) =>a.price - b.price)
+            const x = action.payload.filter(product => !product.title.toLowerCase().includes('nuevo') && !product.title.toLowerCase().includes('new') && product.images[0].includes("https://"))
+            return x.sort((a,b) =>a.price - b.price)
         })
         build.addCase(deleteProductASync.fulfilled, (state, action:PayloadAction<string | undefined>) => {
             return state.filter(product => product.id !== action.payload)
