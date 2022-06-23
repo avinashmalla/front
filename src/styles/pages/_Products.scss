@@ -1,0 +1,11 @@
+.products--div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.products--single-image{
+    width : 10em;
+    height : 10em;
+}
