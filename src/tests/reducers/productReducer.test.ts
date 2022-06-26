@@ -1,4 +1,4 @@
-import { productReducer, addProduct,updateProduct, deleteProduct } from "../../redux/reducers/productReducer"
+import { productReducer, addProduct,updateProduct } from "../../redux/reducers/productReducer"
 import { Product } from "../../types/products"
 import { store } from "../../redux/store"
 import { testProduct } from "../utils/product-utils"

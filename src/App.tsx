@@ -16,10 +16,10 @@ function App() {
 
   const dispatch = useAppDispatch()
   useEffect(() => {
-    dispatch(fetchProducts())
+    dispatch(fetchProducts({offset: 0, limit: 30}))
   }, [])
   
-  const darkTheme = createTheme({
+  const lightTheme = createTheme({
     palette: {
       mode: 'light',
     },
@@ -27,7 +27,7 @@ function App() {
   
 
   return (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={lightTheme}>
     <div className="App">
       <BrowserRouter>
       <NavBar />

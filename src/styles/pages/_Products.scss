@@ -1,11 +1,22 @@
-.products--div{
+.grid--products{
+    width: 40em;
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
     justify-content: center;
+    align-content: center;
+    align-items: center;
 }
 
-.products--single-image{
-    width : 10em;
-    height : 10em;
+.grid--products--container{
+    // justify-content: center;
+    // padding: 16;
+}
+
+.products--card{
+    // width: 450;
+}
+
+.products--main-image{
+    height: 10em;
+    width: 8em;
 }

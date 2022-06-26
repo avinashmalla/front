@@ -5,6 +5,7 @@ import '../styles/components/_NavBar.scss'
 
 import { AppBar, Divider, IconButton, Stack, Toolbar, Typography } from "@mui/material"
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import LoginButton from "./LoginButton";
 
 const NavBar = () => {
     return (
@@ -20,6 +21,7 @@ const NavBar = () => {
                     <Link to='/'> Home </Link>
                     <Link to='/products'>Products</Link>
                     <Link to='/profile'>Profile</Link>
+                    <LoginButton />
                 </Stack>
             </Toolbar>
         </AppBar>

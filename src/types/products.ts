@@ -8,3 +8,8 @@ export interface Product{
     category: Category,
     images: string[]
 }
+
+export interface FetchProductsParams{
+    offset: number,
+    limit: number
+}

@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Product } from "../../types/products";
+import { Product, FetchProductsParams } from "../../types/products";
 
 const initialState: Product[] = []
 export const fetchProducts = createAsyncThunk(
     'fetchProducts',
-    async() => {
+    async({offset, limit}:FetchProductsParams) => {
         try{
-            const data = await fetch('https://api.escuelajs.co/api/v1/products')
+            const data = await fetch(`https://api.escuelajs.co/api/v1/products?offset=${offset}&limit=${limit}`)
             const result = await data.json()
             return result
         } catch(error: any){
@@ -35,6 +35,7 @@ const productSlice = createSlice({
             state.push(action.payload)
         },
         updateProduct: (state, action) => {
+            console.log(action.payload)
             state.filter(product => {
                 if(product.id === action.payload.id){
                     product = {
@@ -43,16 +44,16 @@ const productSlice = createSlice({
                     }
                 }
             })
-        },
-        deleteProduct: (state, action) => {
-            return state.filter(product => product.id !== action.payload.id)
         }
+        // deleteProduct: (state, action) => {
+        //     return state.filter(product => product.id !== action.payload.id)
+        // }
 
     },
     extraReducers: (build) => {
         build.addCase(fetchProducts.fulfilled, (state, action:PayloadAction<Product []>) => {
-            const x = action.payload.filter(product => !product.title.toLowerCase().includes('nuevo') && !product.title.toLowerCase().includes('new') && product.images[0].includes("https://"))
-            return x.sort((a,b) =>a.price - b.price)
+            const cleanObj = action.payload.filter(product => !product.title.toLowerCase().includes('nuevo') && !product.title.toLowerCase().includes('new') && product.images[0].includes("https://"))
+            return cleanObj.sort((a,b) =>a.price - b.price)
         })
         build.addCase(deleteProductASync.fulfilled, (state, action:PayloadAction<string | undefined>) => {
             return state.filter(product => product.id !== action.payload)
@@ -61,4 +62,4 @@ const productSlice = createSlice({
 })
 
 export const productReducer = productSlice.reducer
-export const {addProduct,updateProduct, deleteProduct} = productSlice.actions
+export const {addProduct,updateProduct} = productSlice.actions

@@ -1,11 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { User } from "../../types/user";
 
-const initialState: {
-    user: User|undefined
-} = {
-    user:undefined
-}
+const initialState: {user: User|undefined} = {user:undefined}
 
 const userSlice = createSlice({
     name: 'userReducer',
@@ -22,5 +18,4 @@ const userSlice = createSlice({
 })
 
 export const {login} = userSlice.actions
-const userReducer = userSlice.reducer
-export default userReducer
+export const userReducer = userSlice.reducer
