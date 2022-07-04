@@ -13,7 +13,7 @@ import { useState } from 'react';
 const Products = () => {
   const products = useAppSelector(state => state.productReducer)
   const [pageNum, setPageNum] = useState(0)
-  const [perPage, setPerPage] = useState(30)
+  const [perPage, setPerPage] = useState(12)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
@@ -29,7 +29,7 @@ const Products = () => {
     }
     dispatch(fetchProducts({
       offset: pageNum,
-      limit: 30
+      limit: 12
     }))
   }
 
@@ -37,12 +37,12 @@ const Products = () => {
     <>
       <CssBaseline />
       <Grid container spacing={2} padding={2} >
-        <Grid item xs={12} direction="row" justifyContent="space-between" >
+        <Grid item xs={12} justifyContent="space-between" >
           <IconButton aria-label="Pagination Left" onClick={() => onChangePage('left')}><KeyboardArrowLeftIcon /></IconButton>
           {/* <TextField hiddenLabel variant = "filled" defaultValue={30} onChange = {(e) => setPerPage(Number(e.target.value))} /> */}
           <IconButton aria-label="Pagination Right" onClick={() => onChangePage('right')}><KeyboardArrowRightIcon /></IconButton>
         </Grid>
-        <Grid item xs={12} className='grid--products' >Products
+        <Grid item xs={12} className='grid--products' >
           <Grid container direction='row' maxWidth='md' rowSpacing={2} columnSpacing={3} className='grid--products--container' >
             {products && products.map(product => (
               <Grid item key={product.id}>

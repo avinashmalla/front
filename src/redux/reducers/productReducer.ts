@@ -31,7 +31,7 @@ const productSlice = createSlice({
     name: 'productReducer',
     initialState: initialState,
     reducers: {
-        addProduct: (state, action) => {
+        addProduct: (state, action) => { //declare action types in here
             state.push(action.payload)
         },
         updateProduct: (state, action) => {
@@ -44,7 +44,14 @@ const productSlice = createSlice({
                     }
                 }
             })
-        }
+        },
+        sortByCategory: (state, action: PayloadAction<string>) => {
+            return state.filter(product => product.category.name = action.payload)
+        },
+        sortByPrice: (state, action) => {
+            return state.filter(product => product.category.name = action.payload)
+        },
+
         // deleteProduct: (state, action) => {
         //     return state.filter(product => product.id !== action.payload.id)
         // }
@@ -53,7 +60,10 @@ const productSlice = createSlice({
     extraReducers: (build) => {
         build.addCase(fetchProducts.fulfilled, (state, action:PayloadAction<Product []>) => {
             const cleanObj = action.payload.filter(product => !product.title.toLowerCase().includes('nuevo') && !product.title.toLowerCase().includes('new') && product.images[0].includes("https://"))
-            return cleanObj.sort((a,b) =>a.price - b.price)
+            const newArr = cleanObj.sort((a,b) =>a.price - b.price)
+            // console.log("sorted", newArr)
+            return newArr
+
         })
         build.addCase(deleteProductASync.fulfilled, (state, action:PayloadAction<string | undefined>) => {
             return state.filter(product => product.id !== action.payload)

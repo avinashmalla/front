@@ -38,6 +38,7 @@ function App() {
             <Route path=':productId' element = {<SingleProduct />}/>
           </Route>
           <Route path = 'profile' element = {<Profile />} />
+
         </Routes>
       </BrowserRouter>
     </div>
