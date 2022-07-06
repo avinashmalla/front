@@ -5,11 +5,15 @@ import { Product, ProductInCart } from "../../types/products";
 const initialState: ProductInCart[] = []
 
 const cartSlice = createSlice({
-    name: 'card reducer',
+    name: 'cartReducer',
     initialState: initialState,
     reducers: {
     },
     extraReducers: (builder) => {
+        // addProductToCart: (state, action) {
+        //     console.log(action.payload)
+        //     // state.push(action.payload)
+        // }
 
     }
 })

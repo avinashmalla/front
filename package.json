@@ -17,6 +17,7 @@
     "@types/react-dom": "^18.0.5",
     "axios": "^0.27.2",
     "react": "^18.2.0",
+    "react-alert": "^7.0.3",
     "react-dom": "^18.2.0",
     "react-google-login": "^5.2.2",
     "react-redux": "^8.0.2",

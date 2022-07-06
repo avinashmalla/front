@@ -1,24 +1,33 @@
-import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, Chip, CssBaseline, Divider, Grid, IconButton, Stack, Typography, TextField } from '@mui/material'
+import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, Chip, CssBaseline, Divider, Grid, IconButton, Stack, Typography, TextField, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, Alert, Collapse } from '@mui/material'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import CloseIcon from '@mui/icons-material/Close';
+
 import { useAppDispatch, useAppSelector } from '../hooks/appHooks'
 import purple from '@mui/material/colors/purple';
+
 import { useNavigate } from 'react-router-dom';
 
 import '../styles/pages/_Products.scss'
 import { deleteProductASync, fetchProducts } from '../redux/reducers/productReducer';
 import { useState } from 'react';
+import { Product } from '../types/products';
+import React from 'react';
+
+
 
 const Products = () => {
   const products = useAppSelector(state => state.productReducer)
+  const loggedInUser = useAppSelector(state => state.userReducer.currentUser)
   const [pageNum, setPageNum] = useState(0)
   const [perPage, setPerPage] = useState(12)
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-  const deleteProduct = (productId: string) => {
-    dispatch(deleteProductASync(productId))
+  const handleAddToCart = (product: Product) => {
+    // dispatch(addProductToCart(productId))
   }
 
   const onChangePage = (input: 'left' | 'right') => {
@@ -32,6 +41,8 @@ const Products = () => {
       limit: 12
     }))
   }
+
+
 
   return (
     <>
@@ -56,12 +67,11 @@ const Products = () => {
                     <Divider textAlign="left">.</Divider>
                   </CardContent>
                   <CardActions disableSpacing>
-                    <Chip avatar={<Avatar sx={{ bgcolor: purple[100] }}><IconButton aria-label="delete this item"><DeleteForeverIcon /></IconButton></Avatar>} label="Remove this item" variant="outlined" onClick={() => deleteProduct(product.id)} />
+                        <Chip avatar={<Avatar sx={{ bgcolor: purple[100] }}><IconButton aria-label="Add product to cart"><AddShoppingCartIcon /></IconButton></Avatar>} label="Add to Cart" variant="outlined" onClick={() => handleAddToCart(product)} />
                   </CardActions>
                 </Card>
               </Grid>
-            ))
-            }
+            ))}
           </Grid>
         </Grid>
       </Grid>

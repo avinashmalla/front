@@ -21,6 +21,10 @@
     padding: 1em;
 }
 
-.stack--buttons{
-    padding-right: 1em;
+.stack--buttons--singleproduct{
+    display: flex;
+    flex-direction: row;
+    // justify-content: flex-end;
+    // align-items: center;
+    padding-left: 1em;
 }

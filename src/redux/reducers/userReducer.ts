@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { LoginType, User, UserReducerState } from "../../types/user";
+import { CreateUserType, LoginType, PartialLoginType, User, UserReducerState } from "../../types/user";
 
 const initialState: UserReducerState = {
     userList: [],
@@ -26,11 +26,37 @@ export const fetchSingleUser = createAsyncThunk(
         try {
             const response = await axios.get('https://api.escuelajs.co/api/v1/users')
             const userObj = response.data
-            // console.log(userObj.filter(user => user.name === searchUser))
-            return userObj.filter(user => user.name.includes(searchUser))
+            return userObj.filter((user: { name: User["name"] }) => user.name.includes(searchUser))
         } catch (error) {
             console.log(error)
         }
+    }
+)
+
+export const createUserAsync = createAsyncThunk(
+    'createUserAsync',
+    async (pkg: CreateUserType) => {
+        const currentUser = pkg.currentUser
+        const newUser = pkg.createPackage
+        if (currentUser.role === 'admin'){
+            try {
+                const response = await fetch('https://api.escuelajs.co/api/v1/users/', {
+                  method: 'POST',
+                  headers: {
+                    'Content-type': 'application/json',
+                  },
+                  body: JSON.stringify(newUser),
+                })
+                const userData = await response.json()
+                return userData
+              } catch (error) {
+                console.log(error)
+              }
+        } else {
+            console.log("Administrative rights required to create new user")
+            return "Administrative rights required to create new user"
+        }
+        
     }
 )
 
@@ -43,7 +69,7 @@ export const loginAsync = createAsyncThunk(
             })
             if (response.data.access_token) {
                 if (!localStorage.getItem(`${email}`)) {
-                    // console.log("Token not found, Adding it")
+                    console.log("UserReducer :: Token not found, Adding it")
                     localStorage.setItem(`${email}`, response.data.access_token)
 
                 }
@@ -52,10 +78,10 @@ export const loginAsync = createAsyncThunk(
                         Authorization: `Bearer ${response.data.access_token}`
                     }
                 })
-                // console.log("from loginAsync: ", user.data)
+                console.log("from loginAsync: ", user.data)
                 return user.data
             } else {
-                // console.log("from loginAsync: Undefined")
+                console.log("from loginAsync: Undefined")
                 return undefined
             }
         } catch (error) {
@@ -83,10 +109,8 @@ const userSlice = createSlice({
     name: 'userReducer',
     initialState: initialState,
     reducers: {
-        // findSingleUser: (state, action: PayloadAction<string>) => {
-        //     // state.userList.filter(user => user.name.toLowerCase() === action.payload.toLowerCase())
-        //     console.log("findSingleUser reducer", state.userList.filter((user) => user.name === action.payload))
-        //     // console.log("retList", retList)
+        // createUser: (state, action) => { //declare action types in here
+        //     state.userList.push(action.payload)
         // },
     },
     extraReducers: (builder) => {
@@ -103,8 +127,13 @@ const userSlice = createSlice({
             .addCase(fetchSingleUser.fulfilled, (state, action) => {
                 state.userList = action.payload
             })
-        }
+            .addCase(createUserAsync.fulfilled, (state, action) => {
+                // console.log(action.payload)
+                // console.log("" state.userList.length)
+                state.userList.push(action.payload)
+            })
+    }
 })
 
-// export const { findSingleUser } = userSlice.actions
+// export const { createUser } = userSlice.actions
 export const userReducer = userSlice.reducer
