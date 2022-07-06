@@ -15,6 +15,7 @@ import { deleteProductASync, fetchProducts } from '../redux/reducers/productRedu
 import { useState } from 'react';
 import { Product } from '../types/products';
 import React from 'react';
+import { addProductToCart } from '../redux/reducers/cartReducer';
 
 
 
@@ -26,8 +27,8 @@ const Products = () => {
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
 
-  const handleAddToCart = (product: Product) => {
-    // dispatch(addProductToCart(productId))
+  const handleAddToCart = (product: Product, quantity: number = 1) => {
+    dispatch(addProductToCart({ ...product, quantity }))
   }
 
   const onChangePage = (input: 'left' | 'right') => {
@@ -67,7 +68,11 @@ const Products = () => {
                     <Divider textAlign="left">.</Divider>
                   </CardContent>
                   <CardActions disableSpacing>
+                    <Grid sx={{ flexGrow: 1 }} container spacing={2}>
+                      <Grid item xs={12}>
                         <Chip avatar={<Avatar sx={{ bgcolor: purple[100] }}><IconButton aria-label="Add product to cart"><AddShoppingCartIcon /></IconButton></Avatar>} label="Add to Cart" variant="outlined" onClick={() => handleAddToCart(product)} />
+                      </Grid>
+                    </Grid>
                   </CardActions>
                 </Card>
               </Grid>

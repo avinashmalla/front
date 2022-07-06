@@ -9,10 +9,6 @@ export interface Product{
     images: string[]
 }
 
-export interface ProductInCart extends Product{
-    quantity: number
-}
-
 export interface FetchProductsParams{
     offset: number,
     limit: number

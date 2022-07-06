@@ -1,6 +1,9 @@
-import { ProductInCart } from "./products";
+import { Product } from "./products";
 
-export interface Cart {
-    products: ProductInCart[],
-    total: number
+export interface ProductInCart extends Product{
+    quantity: number
+}
+
+export interface CartType {
+    myCart: ProductInCart[]
 }
