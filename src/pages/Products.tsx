@@ -1,4 +1,4 @@
-import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, Chip, CssBaseline, Divider, Grid, IconButton, Stack, Typography, TextField, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, Alert, Collapse } from '@mui/material'
+import { Avatar, Card, CardActions, CardContent, CardHeader, CardMedia, Chip, CssBaseline, Divider, Grid, IconButton, Stack, Typography, TextField, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide, Alert, Collapse, Box } from '@mui/material'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
@@ -48,20 +48,28 @@ const Products = () => {
   return (
     <>
       <CssBaseline />
-      <Grid container spacing={2} padding={2} >
-        <Grid item xs={12} justifyContent="space-between" >
-          <IconButton aria-label="Pagination Left" onClick={() => onChangePage('left')}><KeyboardArrowLeftIcon /></IconButton>
-          {/* <TextField hiddenLabel variant = "filled" defaultValue={30} onChange = {(e) => setPerPage(Number(e.target.value))} /> */}
-          <IconButton aria-label="Pagination Right" onClick={() => onChangePage('right')}><KeyboardArrowRightIcon /></IconButton>
-        </Grid>
-        <Grid item xs={12} className='grid--products' >
-          <Grid container direction='row' maxWidth='md' rowSpacing={2} columnSpacing={3} className='grid--products--container' >
+      <Box sx={{ flexGrow: 1 }}>
+        <Grid container spacing={1}> {/* paddingLeft={{xs: '2em', sm: '3em', md: '5', lg: '15em'  }} paddingRight={{xs: '2em', sm: '3em', md: '5', lg: '15em'  }} */}
+          <Grid item xs={12} justifyContent="space-between" >
+            <IconButton aria-label="Pagination Left" onClick={() => onChangePage('left')}><KeyboardArrowLeftIcon /></IconButton>
+            {/* <TextField hiddenLabel variant = "filled" defaultValue={30} onChange = {(e) => setPerPage(Number(e.target.value))} /> */}
+            <IconButton aria-label="Pagination Right" onClick={() => onChangePage('right')}><KeyboardArrowRightIcon /></IconButton>
+          </Grid>
+          <Grid item container xs direction='row' rowSpacing={2} columnSpacing={3} justifyContent='center'>
+            {/* <Grid    className='grid--products--container' >    className='grid--products'     */}
             {products && products.map(product => (
               <Grid item key={product.id}>
-                <Card className='products--card'>
+                <Card>
                   <CardContent>
                     <Typography variant="body2" align='left'>ID: {product.id}</Typography>
-                    <CardMedia component="img" className='products--main-image' image={product.images[0]} alt="Product Image" onClick={() => navigate(`${product.id}`)} />
+                    <CardMedia 
+                      component="img" 
+                      className='products--main-image' 
+                      image={product.images[0]} 
+                      alt="Product Image" 
+                      sx = {{ width : '15em', height : '15em' }}
+                      onClick={() => navigate(`${product.id}`)} 
+                    />
                     <Divider textAlign="left">.</Divider>
                     <Typography variant="subtitle2" align='left'>{product.title}</Typography>
                     <Typography variant="h6" align='left'>{product.price}€ </Typography>
@@ -79,8 +87,7 @@ const Products = () => {
             ))}
           </Grid>
         </Grid>
-      </Grid>
-
+      </Box>
     </>
   )
 }

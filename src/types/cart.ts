@@ -5,5 +5,8 @@ export interface ProductInCart extends Product{
 }
 
 export interface CartType {
-    myCart: ProductInCart[]
+    myCart: ProductInCart[] 
 }
+
+// itemsInCart: number
+//     grandTotal: number
