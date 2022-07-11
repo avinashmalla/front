@@ -20,7 +20,7 @@ import { addProductToCart } from '../redux/reducers/cartReducer';
 
 
 const Products = () => {
-  const products = useAppSelector(state => state.productReducer)
+  const products = useAppSelector(state => state.productReducer.productList)
   const loggedInUser = useAppSelector(state => state.userReducer.currentUser)
   const [pageNum, setPageNum] = useState(0)
   const [perPage, setPerPage] = useState(12)

@@ -1,7 +1,8 @@
-import { fetchAllUsers, loginAsync, loginByToken, fetchSingleUser, createUserAsync } from "../../redux/reducers/userReducer"
+import { fetchAllUsers, loginAsync, loginByToken, fetchSingleUser, createUserAsync, logOut } from "../../redux/reducers/userReducer"
 import { User } from "../../types/user"
 import createTestStore from "../utils/testStore"
 import { testUser, newUser2, adminLogin, adminUser, createUserPackage } from "../utils/user-utils"
+
 let store = createTestStore()
 
 const testToken = JSON.stringify(localStorage.getItem(`john@mail.com`))
@@ -47,4 +48,8 @@ describe('test user reducer', () => {
     //     expect(store.getState().userReducer).toBeDefined()
     //     expect(addedUser).toBeDefined()
     // })
+    test('should log off current user', () => {
+        store.dispatch(logOut)
+        expect(store.getState().userReducer.currentUser).toBeUndefined()
+    })
 })

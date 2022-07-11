@@ -9,7 +9,7 @@ export interface User{
     avatar: string | undefined //undefined because you might want to leave avatar empty
 }
 
-export interface UserReducerState{
+export interface UserReducerStateType{
     userList: User[],
     currentUser: User | undefined
 }

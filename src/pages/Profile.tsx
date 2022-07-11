@@ -37,7 +37,7 @@ const Profile = () => {
               <Stack direction="row" spacing={10} justifyContent='space-between' alignItems='center'> {/* className = 'stack--buttons' */}
                 <Chip avatar={<Avatar sx={{ bgcolor: red[100] }}><IconButton aria-label="Go Back"><ArrowBackIcon /></IconButton></Avatar>} label="Do something later?" variant="outlined" />
                 <Chip avatar={<Avatar sx={{ bgcolor: yellow[100] }}><IconButton aria-label="Edit Button"><ModeEditIcon /></IconButton></Avatar>} label="Edit Profile" variant="outlined" />
-                <Button variant="contained" onClick={myDispatchFunction} >Dispatch a function</Button>
+                {/* <Button variant="contained" onClick={myDispatchFunction} >Dispatch a function</Button> */}
               </Stack>
             </CardActions>
           </Card>

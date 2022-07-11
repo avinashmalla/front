@@ -1,12 +1,21 @@
-import { Category } from "./category";
+import { CategoryType } from "./category";
 
 export interface Product{
     id: string,
     title: string,
     price: number,
     description: string,
-    category: Category,
+    category: CategoryType,
     images: string[]
+}
+
+export interface updateProductType extends Partial<Product>{
+    id: string,
+    updatePackage: {
+        title: string,
+        price: number,
+        description: string
+    }
 }
 
 export interface FetchProductsParams{
@@ -14,7 +23,15 @@ export interface FetchProductsParams{
     limit: number
 }
 
-export interface ProductReducerType{
+export interface ProductReducerStateType{
     productList: Product[],
     product: Product
+}
+
+export interface CreateProductType extends Product{
+    title: string,
+    price: number,
+    description: string,
+    category: CategoryType,
+    images: string[]
 }

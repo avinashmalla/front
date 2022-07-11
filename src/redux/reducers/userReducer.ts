@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { CreateUserType, LoginType, PartialLoginType, User, UserReducerState } from "../../types/user";
+import { CreateUserType, LoginType, PartialLoginType, User, UserReducerStateType } from "../../types/user";
 
-const initialState: UserReducerState = {
+const initialState: UserReducerStateType = {
     userList: [],
     currentUser: undefined
 }
@@ -109,9 +109,10 @@ const userSlice = createSlice({
     name: 'userReducer',
     initialState: initialState,
     reducers: {
-        // createUser: (state, action) => { //declare action types in here
-        //     state.userList.push(action.payload)
-        // },
+        logOut: (state, action) => { //declare action types in here
+            state.currentUser = initialState.currentUser
+            // console.log("current user>>",state.currentUser)
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -135,5 +136,5 @@ const userSlice = createSlice({
     }
 })
 
-// export const { createUser } = userSlice.actions
+export const { logOut } = userSlice.actions
 export const userReducer = userSlice.reducer

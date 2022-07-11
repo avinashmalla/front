@@ -11,11 +11,10 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../hooks/appHooks';
 // import { useAlert } from 'react-alert'
 
-
 import useProduct from '../hooks/useProduct'
 import '../styles/pages/_SingleProduct.scss'
-import { deleteProductASync, updateProduct } from '../redux/reducers/productReducer';
-import { Product } from '../types/products';
+import { deleteProductASync, updateProductAsync } from '../redux/reducers/productReducer';
+import { Product, updateProductType } from '../types/products';
 import { addProductToCart } from '../redux/reducers/cartReducer';
 
 const SingleProduct = () => {
@@ -26,33 +25,14 @@ const SingleProduct = () => {
   const dispatch = useAppDispatch()
   const [enableEdit, setEnableEdit] = useState(false)
   const [updatePackage, setUpdatePackage] = useState({})
-  const [pTitle, setPTitle] = useState('')
-  const [pPrice, setPPrice] = useState(0)
-  const [pDescription, setPDescription] = useState('')
+  const [pTitle, setPTitle] = useState(product?.title)
+  const [pPrice, setPPrice] = useState(product?.price)
+  const [pDescription, setPDescription] = useState(product?.description)
   const [open, setOpen] = React.useState(false)
-
+  
 
   function handleClick() {
     navigate("../", { replace: true });
-  }
-
-  const pkg = () => {
-    setUpdatePackage({
-      id: productId,
-      update: {
-        title: pTitle,
-        price: pPrice,
-        description: pDescription
-      }
-    })
-  }
-
-
-  const handleEdit = () => {
-    pkg()
-    setEnableEdit(false)
-    // console.log(updatePackage)
-    dispatch(updateProduct(updatePackage))
   }
 
   const handleDeleteProduct = (productId: string) => {
@@ -83,7 +63,7 @@ const SingleProduct = () => {
               !enableEdit // INNER IF:: if enableEdit is FALSE
                 // loggedInUser && loggedInUser.role !== 'admin'
                 ?
-                <Card className='single-product--card'>{/* sx={{ maxWidth: 300 }}*/}
+                <Card className='single-product--card'>
                   <CardContent >
                     <CardMedia component="img" image={product.images[0]} alt="Product Image" className='single-product--image' />
                     <Stack direction="row" justifyContent='space-between' alignItems='center'>
@@ -100,11 +80,11 @@ const SingleProduct = () => {
                         loggedInUser && loggedInUser.role === 'admin'
                           ?
                           <>
-                            <Grid item xs={4}>
-                              <Chip avatar={<Avatar sx={{ bgcolor: red[100] }}><IconButton aria-label="Go Back"><ArrowBackIcon /></IconButton></Avatar>} label="Go Back" variant="outlined" onClick={handleClick} />
+                            <Grid item xs={6}>
+                              <Chip avatar={<Avatar sx={{ bgcolor: purple[100] }}><IconButton aria-label="Go Back"><ArrowBackIcon /></IconButton></Avatar>} label="Go Back" variant="outlined" onClick={handleClick} />
                             </Grid>
-                            <Grid item xs={4}>
-                              <Chip avatar={<Avatar sx={{ bgcolor: purple[100] }}><IconButton aria-label="delete this product"><DeleteForeverIcon /></IconButton></Avatar>} label="Delete Product" variant="outlined" onClick={handleClickOpen} />
+                            <Grid item xs={6}>
+                              <Chip avatar={<Avatar sx={{ bgcolor: red[600] }}><IconButton aria-label="delete this product"><DeleteForeverIcon /></IconButton></Avatar>} label="Delete Product" variant="outlined" onClick={handleClickOpen} />
                               <Dialog
                                 open={open}
                                 onClose={handleClose}
@@ -126,9 +106,9 @@ const SingleProduct = () => {
                                 </DialogActions>
                               </Dialog>
                             </Grid>
-                            <Grid item xs={4}>
+                            {/* <Grid item xs={4}>
                               <Chip avatar={<Avatar sx={{ bgcolor: yellow[100] }}><IconButton aria-label="Edit Button"><ModeEditIcon /></IconButton></Avatar>} label="Edit Product" variant="outlined" onClick={() => setEnableEdit(true)} />
-                            </Grid>
+                            </Grid> */}
                           </>
                           :
                           <>
@@ -148,19 +128,19 @@ const SingleProduct = () => {
                     <CardMedia component="img" image={product.images[0]} alt="Product Image" className='single-product--image' />
                     <Stack direction="row" justifyContent='space-between' spacing={2} alignItems='center'>
                       <TextField variant="filled" color="success" defaultValue={product.title} id='product-title' sx={{ width: '35ch' }} onChange={(e) => setPTitle(e.target.value)} />
-                      <TextField variant="filled" color="success" defaultValue={product.price} id='product-price' onChange={(e) => setPPrice(parseInt(e.target.value))} />
+                      <TextField variant="filled" color="success" defaultValue={product.price} id='product-price' onChange={ (e) => setPPrice(parseInt(e.target.value))} />
                     </Stack>
                     <Divider textAlign="right">.</Divider>
                     <TextField fullWidth multiline variant="filled" color="success" defaultValue={product.description} id='product-description' onChange={(e) => setPDescription(e.target.value)} />
                     <Divider textAlign="left">.</Divider>
                   </CardContent>
-                  <CardActions>
+                  {/* <CardActions>
                     <Grid sx={{ flexGrow: 1 }} container spacing={2}>
                       <Grid item xs={12}>
-                        <Chip avatar={<Avatar sx={{ bgcolor: green[100] }}><IconButton aria-label="Save Button"><SaveOutlinedIcon /></IconButton></Avatar>} label="Save Updates" variant="outlined" onClick={handleEdit} />
+                        <Chip avatar={<Avatar sx={{ bgcolor: green[100] }}><IconButton aria-label="Save Button"><SaveOutlinedIcon /></IconButton></Avatar>} label="Save Updates" variant="outlined" onClick={setEnableEdit(false)} />
                       </Grid>
                     </Grid>
-                  </CardActions>
+                  </CardActions> */}
                 </Card>
               : <Typography variant="h6" align='left'>This product doesn't exist</Typography> //* OUTER ELSE::
           }
