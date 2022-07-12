@@ -4,7 +4,6 @@ import createTestStore from "../utils/testStore"
 import { testUser, newUser2, adminLogin, adminUser, createUserPackage } from "../utils/user-utils"
 
 let store = createTestStore()
-
 const testToken = JSON.stringify(localStorage.getItem(`john@mail.com`))
 
 //cleanup before each test

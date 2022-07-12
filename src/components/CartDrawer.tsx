@@ -1,14 +1,15 @@
 import { Avatar, Badge, Box, CardMedia, Chip, Drawer, Grid, IconButton, NativeSelect, Paper, styled, TextField, Typography, Icon } from '@mui/material'
 import React, { useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../hooks/appHooks';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import SwipeRightAltRoundedIcon from '@mui/icons-material/SwipeRightAltRounded';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { red, green, orange, purple, yellow } from '@mui/material/colors';
-import { ProductInCart } from '../types/cart';
 import RemoveCircleRoundedIcon from '@mui/icons-material/RemoveCircleRounded';
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
+
 import { addProductToCart, removeProductFromCart, removeUnitProductFromCart } from '../redux/reducers/cartReducer';
+import { ProductInCart } from '../types/cart';
+import { useAppDispatch, useAppSelector } from '../hooks/appHooks';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -18,7 +19,6 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
         padding: '0 4px',
     },
 }));
-
 
 const CartDrawer = () => {
     const cartSelector = useAppSelector(state => state.cartReducer)

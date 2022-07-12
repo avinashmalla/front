@@ -71,7 +71,6 @@ export const loginAsync = createAsyncThunk(
                 if (!localStorage.getItem(`${email}`)) {
                     console.log("UserReducer :: Token not found, Adding it")
                     localStorage.setItem(`${email}`, response.data.access_token)
-
                 }
                 const user = await axios.get('https://api.escuelajs.co/api/v1/auth/profile', {
                     headers: {
