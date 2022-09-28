@@ -52,11 +52,9 @@ const Products = () => {
         <Grid container spacing={1}> {/* paddingLeft={{xs: '2em', sm: '3em', md: '5', lg: '15em'  }} paddingRight={{xs: '2em', sm: '3em', md: '5', lg: '15em'  }} */}
           <Grid item xs={12} justifyContent="space-between" >
             <IconButton aria-label="Pagination Left" onClick={() => onChangePage('left')}><KeyboardArrowLeftIcon /></IconButton>
-            {/* <TextField hiddenLabel variant = "filled" defaultValue={30} onChange = {(e) => setPerPage(Number(e.target.value))} /> */}
             <IconButton aria-label="Pagination Right" onClick={() => onChangePage('right')}><KeyboardArrowRightIcon /></IconButton>
           </Grid>
           <Grid item container xs direction='row' rowSpacing={2} columnSpacing={3} justifyContent='center'>
-            {/* <Grid    className='grid--products--container' >    className='grid--products'     */}
             {products && products.map(product => (
               <Grid item key={product.id}>
                 <Card>

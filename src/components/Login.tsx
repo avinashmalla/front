@@ -1,5 +1,5 @@
 import { Avatar, Box, Button, Container, CssBaseline, Stack, TextField, IconButton, Menu, MenuItem, Modal, Typography } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks/appHooks';
 import { loginAsync, loginByToken, logOut } from '../redux/reducers/userReducer';
@@ -43,36 +43,37 @@ const Login = () => {
     boxShadow: 24
   }
 
+  useEffect(() => {
+    const token = localStorage.getItem(`sessUser`)
+    if (token) {
+      const loggedInUser = dispatch(loginByToken(token))
+    }
+  }, []);
+
   function handleLoginSubmit() {
     handleMenuClose()
-    const token = localStorage.getItem(`${email}`)
-    if (token) {
-      console.log("Login Page :: Token FOUND for", `${email}`)
-      dispatch(loginByToken(token))
-    }
-    else {
-      console.log("Login Page :: Token NOT FOUND")
-      dispatch(loginAsync({ email, password }))
-    }
-    handleModalClose()
+    dispatch(loginAsync({ email, password }))
+    // handleMenuClose()
   }
 
-  
-  return (
-    <>
-      <CssBaseline />
-      {
-        loggedInUser
-        ? <IconButton size='medium' edge='start' color='inherit' aria-label='Profile' onClick={(e) => handleClickOnProfile(e)}>
-            <Avatar alt={loggedInUser.name} src={loggedInUser.avatar} />
-          </IconButton>
-        : <IconButton size='medium' edge='start' color='inherit' aria-label='Profile' onClick={(e) => handleClickOnProfile(e)}>
-            <PersonPinRoundedIcon />
-            <Typography>
-              Login
-            </Typography>
-          </IconButton>
-      }
+  const handleLogout = () => {
+    setEmail("")
+    setPassword("")
+    localStorage.removeItem(`sessUser`)
+    dispatch(logOut(loggedInUser))
+    handleMenuClose()
+  };
+
+  if (loggedInUser) {
+    return (
+      <>
+        <CssBaseline />
+        <IconButton size='medium' edge='start' color='inherit' aria-label='Profile' onClick={(e) => handleClickOnProfile(e)}>
+          <Avatar alt={loggedInUser.name} src={loggedInUser.avatar} />
+        </IconButton>
+        <Typography variant="body2">
+          {loggedInUser.email}
+        </Typography>
         <Menu
           id="basic-menu"
           anchorEl={anchorEl}
@@ -81,10 +82,32 @@ const Login = () => {
           MenuListProps={{
             'aria-labelledby': 'basic-button',
           }}>
-          <MenuItem onClick={handleModalOpen}>Login</MenuItem>
           <MenuItem onClick={() => navigate("../profile", { replace: true })}>Profile</MenuItem>
-          <MenuItem onClick={() => dispatch(logOut)}>Logout</MenuItem>
+          <MenuItem onClick={handleLogout}>Logout</MenuItem>
         </Menu>
+      </>
+    )
+  }
+
+  return (
+    <>
+      <CssBaseline />
+      <IconButton size='medium' edge='start' color='inherit' aria-label='Profile' onClick={(e) => handleClickOnProfile(e)}>
+        <PersonPinRoundedIcon />
+        <Typography>
+          Login
+        </Typography>
+      </IconButton>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={menuOpen}
+        onClose={handleMenuClose}
+        MenuListProps={{
+          'aria-labelledby': 'basic-button',
+        }}>
+        <MenuItem onClick={handleModalOpen}>Login</MenuItem>
+      </Menu>
       <Container maxWidth='sm'>
         <Modal
           open={modalOpen}

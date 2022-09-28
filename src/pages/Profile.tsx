@@ -7,21 +7,13 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 
 import '../styles/pages/_Profile.scss'
-// import { createUserAsync } from '../redux/reducers/userReducer';
-// import { createUserPackage } from '../tests/utils/user-utils';
-
 
 const Profile = () => {
   const userReducer_state = useAppSelector(state => state.userReducer)
   const user = userReducer_state.currentUser
-  const dispatch = useAppDispatch()
-
-  function myDispatchFunction() {
-    // dispatch(createUserAsync(createUserPackage))
-  }
 
   return (
-    <Grid item xs={12} className='grid--main-content'>
+    <Grid container xs={12} className='grid--main-content'>
       {
         user
           ?
@@ -37,11 +29,10 @@ const Profile = () => {
               <Stack direction="row" spacing={10} justifyContent='space-between' alignItems='center'> {/* className = 'stack--buttons' */}
                 <Chip avatar={<Avatar sx={{ bgcolor: red[100] }}><IconButton aria-label="Go Back"><ArrowBackIcon /></IconButton></Avatar>} label="Do something later?" variant="outlined" />
                 <Chip avatar={<Avatar sx={{ bgcolor: yellow[100] }}><IconButton aria-label="Edit Button"><ModeEditIcon /></IconButton></Avatar>} label="Edit Profile" variant="outlined" />
-                {/* <Button variant="contained" onClick={myDispatchFunction} >Dispatch a function</Button> */}
               </Stack>
             </CardActions>
           </Card>
-          : <Typography variant="h6" align='left'>This profile doesn't exist</Typography> //* OUTER ELSE::
+          : <Typography variant="h6" align='left'>This profile doesn't exist</Typography>
       }
     </Grid>
   )

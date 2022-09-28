@@ -38,25 +38,25 @@ export const createUserAsync = createAsyncThunk(
     async (pkg: CreateUserType) => {
         const currentUser = pkg.currentUser
         const newUser = pkg.createPackage
-        if (currentUser.role === 'admin'){
+        if (currentUser.role === 'admin') {
             try {
                 const response = await fetch('https://api.escuelajs.co/api/v1/users/', {
-                  method: 'POST',
-                  headers: {
-                    'Content-type': 'application/json',
-                  },
-                  body: JSON.stringify(newUser),
+                    method: 'POST',
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                    body: JSON.stringify(newUser),
                 })
                 const userData = await response.json()
                 return userData
-              } catch (error) {
+            } catch (error) {
                 console.log(error)
-              }
+            }
         } else {
             console.log("Administrative rights required to create new user")
             return "Administrative rights required to create new user"
         }
-        
+
     }
 )
 
@@ -64,13 +64,14 @@ export const loginAsync = createAsyncThunk(
     'loginAsync',
     async ({ email, password }: LoginType) => {
         try {
+            const sessUser = { email, password }
             const response = await axios.post('https://api.escuelajs.co/api/v1/auth/login', {
                 email, password
             })
             if (response.data.access_token) {
-                if (!localStorage.getItem(`${email}`)) {
+                if (!localStorage.getItem(`sessUser`)) {
                     console.log("UserReducer :: Token not found, Adding it")
-                    localStorage.setItem(`${email}`, response.data.access_token)
+                    localStorage.setItem(`sessUser`, response.data.access_token)
                 }
                 const user = await axios.get('https://api.escuelajs.co/api/v1/auth/profile', {
                     headers: {
@@ -108,9 +109,9 @@ const userSlice = createSlice({
     name: 'userReducer',
     initialState: initialState,
     reducers: {
-        logOut: (state, action) => { //declare action types in here
+        logOut: (state, action) => {
             state.currentUser = initialState.currentUser
-            // console.log("current user>>",state.currentUser)
+            // localStorage.removeItem(`sessUser`)
         },
     },
     extraReducers: (builder) => {
@@ -128,8 +129,6 @@ const userSlice = createSlice({
                 state.userList = action.payload
             })
             .addCase(createUserAsync.fulfilled, (state, action) => {
-                // console.log(action.payload)
-                // console.log("" state.userList.length)
                 state.userList.push(action.payload)
             })
     }
